@@ -48,6 +48,9 @@ def upload():
 
 @app.route('/files')
 def files():
+    if not session.get('logged_in'):
+        abort(401)
+        
     file_list = get_uploaded_images()
     print file_list
     return render_template('files.html', uploaded_images = file_list)
