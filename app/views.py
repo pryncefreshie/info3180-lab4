@@ -46,6 +46,20 @@ def upload():
 
     return render_template('upload.html', uploadForm = uploadForm)
 
+@app.route('/files')
+def files():
+    file_list = get_uploaded_images()
+    print file_list
+    return render_template('files.html', uploaded_images = file_list)
+
+
+def get_uploaded_images():
+    uploads = []
+    for cwd, subdirs, files in os.walk(app.config['UPLOAD_FOLDER']):
+        for file in files:
+            if file.split('.')[-1] in allowed_uploads:
+                uploads.append(file)
+    return uploads
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
